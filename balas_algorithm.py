@@ -200,10 +200,28 @@ def test_2():
     constraints_vector = [-1, -2, -1, 0, 0, 42]
 
     balas_solution = balas_algorithm(cost_variables_vector, constraints_matrix, constraints_vector)
+    #balas_solution = balas_solution if balas_solution is None else [1 - element for element in balas_solution]
     brute_solution =  brute_force(cost_variables_vector, constraints_matrix, constraints_vector)
+
+    print(vectors_is_equal(balas_solution, brute_solution))
+
+
+def test_3():
+    cost_variables_vector = [2, 3, 10, 12, 15, 16, 20, 21, 30, 40]
+    constraints_matrix = [[0, 0, 1, 0, 0, 0, 0, -1, 0, 0],
+                                   [0, 0, 1, 0, 0, 0, -1, 0, 0, 0],
+                                   [0, 0, 1, 0, -1, 0, 0, 0, 0, 0],
+                                   [0, 0, 0, 0, 0, -1, 0, -1, -1, -1],
+                                   [-1, -1, -1, -1, -1, 0, -1, 0, 0, 0],
+                                   [3, 5, 8, 17, 40, 5, 10, 4, 40, 50]]
+    constraints_vector = [0, 0, 0, -3, -2, 82]
+
+    balas_solution = balas_algorithm(cost_variables_vector, constraints_matrix, constraints_vector)
+    brute_solution = brute_force(cost_variables_vector, constraints_matrix, constraints_vector)
 
     print(vectors_is_equal(balas_solution, brute_solution))
 
 
 test_1()
 test_2()
+test_3()
