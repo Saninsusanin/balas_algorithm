@@ -138,8 +138,8 @@ def balas_algorithm(cost_variables_vector, constraints_matrix, constraints_vecto
 
         # we don't need to push "siblings" of current point if current point isn't satisfy the constraints
         if not is_impossible(current[TupleIndex.VERTEX], current[TupleIndex.FIXED_ARGS_NUM], constraints_matrix,
-                             constraints_vector) and current[TupleIndex.FIXED_ARGS_NUM] < length:
-            # initializig score of current vertex(to get rid of excess calculations)
+                             constraints_vector):
+            # initializing score of current vertex(to get rid of excess calculations)
             current_score = score_function(current[TupleIndex.VERTEX], current[TupleIndex.FIXED_ARGS_NUM],
                                            cost_variables_vector)
 
@@ -172,6 +172,8 @@ def balas_algorithm(cost_variables_vector, constraints_matrix, constraints_vecto
     return score if score is None else score[TupleIndex.VERTEX]
 
 # book example(search minimum)
+
+
 def test_1():
     cost_variables_vector = [3, 5, 6, 9, 10, 10]
     constraints_matrix = [[-2, 6, -3, 4, 1, -2],
@@ -185,6 +187,8 @@ def test_1():
     print(vectors_is_equal(balas_solution, brute_solution))
 
 # search maximum
+
+
 def test_2():
     cost_variables_vector = [1, 4, 15, 19, 27, 31]
     constraints_matrix = [[0, 0, -1, 0, 0, -1],
@@ -196,10 +200,10 @@ def test_2():
     constraints_vector = [-1, -2, -1, 0, 0, 42]
 
     balas_solution = balas_algorithm(cost_variables_vector, constraints_matrix, constraints_vector)
-    balas_solution = balas_solution if balas_solution is None else [1 - element for element in balas_solution]
     brute_solution =  brute_force(cost_variables_vector, constraints_matrix, constraints_vector)
 
     print(vectors_is_equal(balas_solution, brute_solution))
+
 
 test_1()
 test_2()
