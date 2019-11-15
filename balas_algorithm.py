@@ -120,7 +120,7 @@ def balah_algorithm(vertex, cost_variables_vector, constraints_matrix, constrain
             stack.push((left_sibling, current[TupleIndex.FIXED_ARGS_NUM] + 1))
             stack.push((right_sibling, current[TupleIndex.FIXED_ARGS_NUM] + 1))
 
-    return score[TupleIndex.VERTEX]
+    return score if score is None else score[TupleIndex.VERTEX]
 
 # book example(search minimum)
 def test_1():
