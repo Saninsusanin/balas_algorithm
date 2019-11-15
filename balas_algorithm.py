@@ -150,6 +150,6 @@ def test_2():
     constraints_vector = [-1, 0, -2, 42, 0, -1]
 
     result = balah_algorithm(propositional_variables_vector, cost_variables_vector, constraints_matrix, constraints_vector)
-    print([1 - element for element in result])
+    print(score if score is None else [1 - element for element in result])
 
 test_2()
