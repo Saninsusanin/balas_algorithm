@@ -34,6 +34,55 @@ def scalar_product(first_vector, second_vector):
     return result
 
 
+def get_length_of_number(number):
+    length = 0
+
+    while number >> length: length += 1
+
+    return length
+
+
+def get_bit_array(number, alignment):
+    length = get_length_of_number(number)
+    bit_array = [0 for _ in range(alignment - length)]
+
+    for i in range(length - 1, -1, -1):
+        bit_array.append(int((number & (1 << i)) != 0))
+
+    return bit_array
+
+
+def brute_force(cost_variables_vector, constraints_matrix, constraints_vector):
+    length = len(cost_variables_vector)
+    bound = 1 << length
+    score = None
+
+    for i in range(bound):
+        bit_array = get_bit_array(i, length)
+
+        if is_feasible(bit_array, constraints_matrix, constraints_vector):
+            current_score = scalar_product(bit_array, cost_variables_vector)
+
+            if score is None or score[TupleIndex.SCORE] > current_score:
+                score = (bit_array, 0, current_score)
+
+    return score if score is None else score[TupleIndex.VERTEX]
+
+
+def vectors_is_equal(first_vector, second_vector):
+
+    if first_vector is None:
+        return True if second_vector is None else False
+
+    result = True
+    length = len(first_vector)
+
+    for i in range(length):
+        result &= (first_vector[i] == second_vector[i])
+
+    return result
+
+
 def is_impossible(vertex, number_of_fixed_variables, constraints_matrix, constraints_vector):
     result = False
     number_of_rows = len(constraints_vector)
@@ -73,10 +122,10 @@ def score_function(vertex, number_of_fixed_variables, cost_variables_vector):
     return score
 
 
-def balah_algorithm(vertex, cost_variables_vector, constraints_matrix, constraints_vector):
+def balas_algorithm(cost_variables_vector, constraints_matrix, constraints_vector):
     # initializing of the stack
     stack = Stack()
-    stack.push((vertex, 0))
+    stack.push(([0 for i in range(len(cost_variables_vector))], 0))
 
     # initializing of the current max
     score = None
@@ -124,22 +173,19 @@ def balah_algorithm(vertex, cost_variables_vector, constraints_matrix, constrain
 
 # book example(search minimum)
 def test_1():
-    propositional_variables_vector = [0, 0, 0, 0, 0, 0]
-
     cost_variables_vector = [3, 5, 6, 9, 10, 10]
-
     constraints_matrix = [[-2, 6, -3, 4, 1, -2],
                           [-5, -3, 1, 3, -2, 1],
                           [5, -1, 4, -2, 2, -1]]
-
     constraints_vector = [2, -2, 3]
 
-    result = balah_algorithm(propositional_variables_vector, cost_variables_vector, constraints_matrix, constraints_vector)
-    print(result)
+    balas_solution = balas_algorithm(cost_variables_vector, constraints_matrix, constraints_vector)
+    brute_solution = brute_force(cost_variables_vector, constraints_matrix, constraints_vector)
+
+    print(vectors_is_equal(balas_solution, brute_solution))
 
 # search maximum
 def test_2():
-    propositional_variables_vector = [0, 0, 0, 0, 0, 0]
     cost_variables_vector = [1, 4, 15, 19, 27, 31]
     constraints_matrix = [[0, 0, -1, 0, 0, -1],
                           [-1, -1, 0, -1, -1, 0],
@@ -147,9 +193,13 @@ def test_2():
                           [-1, 1, 0, 0, 0, 1],
                           [1, -1, 0, 0, 0, 1],
                           [3, 18, 14, 12, 22, 18]]
-    constraints_vector = [-1, 0, -2, 42, 0, -1]
+    constraints_vector = [-1, -2, -1, 0, 0, 42]
 
-    result = balah_algorithm(propositional_variables_vector, cost_variables_vector, constraints_matrix, constraints_vector)
-    print(result if result is None else [1 - element for element in result])
+    balas_solution = balas_algorithm(cost_variables_vector, constraints_matrix, constraints_vector)
+    balas_solution = balas_solution if balas_solution is None else [1 - element for element in balas_solution]
+    brute_solution =  brute_force(cost_variables_vector, constraints_matrix, constraints_vector)
 
+    print(vectors_is_equal(balas_solution, brute_solution))
+
+test_1()
 test_2()
