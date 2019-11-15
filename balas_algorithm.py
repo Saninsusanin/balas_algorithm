@@ -124,7 +124,7 @@ def balah_algorithm(vertex, cost_variables_vector, constraints_matrix, constrain
 
 # book example(search minimum)
 def test_1():
-    propositional_variables_v = [0, 0, 0, 0, 0, 0]
+    propositional_variables_vector = [0, 0, 0, 0, 0, 0]
 
     cost_variables_vector = [3, 5, 6, 9, 10, 10]
 
@@ -134,16 +134,12 @@ def test_1():
 
     constraints_vector = [2, -2, 3]
 
-    result = balah_algorithm(propositional_variables_v, cost_variables_vector, constraints_matrix, constraints_vector)
+    result = balah_algorithm(propositional_variables_vector, cost_variables_vector, constraints_matrix, constraints_vector)
     print(result)
 
 # search maximum
 def test_2():
-    propositional_variables_v = [0, 0, 0, 0, 0, 0]
-    cost_variables_vector = [31, 15, 1, 27, 4, 19]
-    constraints_vector = [-1, -2, -1, 0, 0, 42]
-
-
+    propositional_variables_vector = [0, 0, 0, 0, 0, 0]
     cost_variables_vector = [1, 4, 15, 19, 27, 31]
     constraints_matrix = [[0, 0, -1, 0, 0, -1],
                           [-1, -1, 0, -1, -1, 0],
@@ -153,7 +149,7 @@ def test_2():
                           [3, 18, 14, 12, 22, 18]]
     constraints_vector = [-1, 0, -2, 42, 0, -1]
 
-    result = balah_algorithm(propositional_variables_v, cost_variables_vector, constraints_matrix, constraints_vector)
+    result = balah_algorithm(propositional_variables_vector, cost_variables_vector, constraints_matrix, constraints_vector)
     print([1 - element for element in result])
 
 test_2()
